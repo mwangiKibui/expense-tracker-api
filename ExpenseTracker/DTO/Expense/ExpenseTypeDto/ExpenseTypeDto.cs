@@ -1,11 +1,9 @@
 namespace ExpenseTracker.DTO
 {
-    public class ExpenseTypeDto 
+    public class ExpenseTypeDto : CustomTypeDto
     {
         public int Id { get; set; }
-        public Guid ExpenseTypeid { get; set; }
-        public required String Name {get;set;}
-        public String? Description {get;set;}
+        public Guid ExpenseTypeId { get; set; }
 
     }
 }

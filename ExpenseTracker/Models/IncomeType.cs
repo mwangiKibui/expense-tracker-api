@@ -6,7 +6,7 @@ namespace ExpenseTracker.Models
         public Guid IncomeTypeID { get; set; }
         public required String Name { get; set; }
         public String? Description { get; set; }
-        public bool? isDeleted {get;set;} = false;
+        public bool isDeleted {get;set;} = false;
         public DateTime? DeletedAt {get;set;}
         public Guid? DeletedBy { get; set; }
         public DateTime CreatedAt {get;set;} = DateTime.UtcNow;

@@ -1,8 +1,6 @@
-
-
 namespace ExpenseTracker.DTO
 {
-    public class ExpenseTypeQueryDto : CustomQueryDto
+    public class IncomeTypeQueryDto : CustomQueryDto
     {   
         
     }
