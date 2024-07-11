@@ -1,3 +1,4 @@
+version: '3.9'
 services:
   db:
     environment: 
@@ -5,9 +6,10 @@ services:
       POSTGRES_USER: "${DB_USERNAME}"
       PGDATA: "/var/lib/postgresql/data"
     image: postgres:latest
+    restart: unless-stopped
     ports:
       - 14332:5432
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
 volumes:
-  data:
+  postgres-data:

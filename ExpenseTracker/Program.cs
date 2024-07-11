@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ExpenseTracker.Data;
 using ExpenseTracker.Services;
+using ExpenseTracker.Mappings;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,6 +32,9 @@ builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(
 );
 // builder.Services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IExpenseTypeService, ExpenseTypeService>();
+builder.Services.AddAutoMapper(typeof(ExpenseTypeProfile));
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
     c => {
