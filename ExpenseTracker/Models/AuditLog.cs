@@ -14,7 +14,7 @@ namespace ExpenseTracker.Models
         public String? Error { get; set;}
         public DateTime? DeletedAt {get;set;}
         public Guid? DeletedBy { get; set; }
-        public DateTime CreatedAt {get;set;} = DateTime.Now;
+        public DateTime CreatedAt {get;set;} = DateTime.UtcNow;
         public Guid CreatedBy {get;set;}
         public User? User {get;set;} = null;
         

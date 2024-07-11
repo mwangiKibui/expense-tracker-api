@@ -11,7 +11,7 @@ namespace ExpenseTracker.Models
         public Boolean IsDeleted { get; set;} = false;
         public DateTime? DeletedAt {get;set;}
         public Guid? DeletedBy { get; set; }
-        public DateTime CreatedAt {get;set;} = DateTime.Now;
+        public DateTime CreatedAt {get;set;} = DateTime.UtcNow;
         public Guid CreatedBy {get;set;}
         public ICollection<BudgetPlan>? BudgetPlans { get; set; } = null;
     }

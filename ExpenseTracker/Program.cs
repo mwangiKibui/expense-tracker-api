@@ -33,7 +33,9 @@ builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(
 // builder.Services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IExpenseTypeService, ExpenseTypeService>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddAutoMapper(typeof(ExpenseTypeProfile));
+builder.Services.AddAutoMapper(typeof(ExpenseProfile));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(

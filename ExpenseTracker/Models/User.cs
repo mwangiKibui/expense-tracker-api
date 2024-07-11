@@ -9,6 +9,7 @@ namespace ExpenseTracker.Models
         public required string LastName { get; set;}
         public required string Email {get;set;}
         public required string Password {get;set;}
+        public DateTime CreatedAt {get;set;} = DateTime.UtcNow;
         public ICollection<ForgotPasswordRequest>? ForgotPasswordRequests { get; set;} = null;
         public ICollection<ExpenseReminder>? ExpenseReminders { get; set;} = null;
         public ICollection<IncomeReminder>? IncomeReminders { get; set;} = null;
