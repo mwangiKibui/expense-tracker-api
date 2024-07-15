@@ -58,7 +58,7 @@ namespace ExpenseTracker.Services
                         response.Data = _mapper.Map<IncomeTypeDto>(duplicateExists);
                     }
                 }else{
-                    var newIncomeType = new ExpenseType{
+                    var newIncomeType = new IncomeType{
                         Name = addIncomeTypeDto.Name,
                         Description = addIncomeTypeDto.Description,
                         CreatedAt = DateTime.UtcNow,

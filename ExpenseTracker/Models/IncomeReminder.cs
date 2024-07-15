@@ -6,9 +6,7 @@ namespace ExpenseTracker.Models
         public Guid IncomeReminderID { get; set; }
         public required int IncomeId {get;set;}
         public required int UserId {get;set;}
-        public required int NatureOfRecurrence {get;set;}
-        public required DateTime StartDate {get;set;}
-        public required DateTime DueDate {get;set;}
+        public required DateOnly DueDate {get;set;}
         public bool? isQueued {get;set;} = false;
         public bool? isDeleted {get;set;} = false;
         public DateTime? DeletedAt {get;set;}

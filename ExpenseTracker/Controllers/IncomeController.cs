@@ -11,14 +11,14 @@ namespace ExpenseTracker.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class ExpenseController : Controller{
+public class IncomeController : Controller{
     // public static User user = new User();
     
-    private readonly IExpenseService _expenseService;
+    private readonly IIncomeService _incomeService;
     private readonly DataContext _dbContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public ExpenseController(IExpenseService expenseService,DataContext dbContext,IHttpContextAccessor httpContextAccessor){
-        _expenseService = expenseService;
+    public IncomeController(IIncomeService incomeService,DataContext dbContext,IHttpContextAccessor httpContextAccessor){
+        _incomeService = incomeService;
         _dbContext = dbContext;
         _httpContextAccessor = httpContextAccessor;
     }
@@ -27,13 +27,13 @@ public class ExpenseController : Controller{
     [Authorize]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ResponseExpenseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseIncomeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<ResponseExpenseDto>> AddExpense(AddExpenseDto addExpenseDto){
+    public async Task<ActionResult<ResponseIncomeDto>> AddIncome(AddIncomeDto addIncomeDto){
         try{
             AuthenticatedUser? authenticatedUser = await AuthHelper.GetAuthenticatedUser(_dbContext,_httpContextAccessor?.HttpContext?.User!);
-            ResponseExpenseDto result = await _expenseService.AddExpense(authenticatedUser,addExpenseDto);
+            ResponseIncomeDto result = await _incomeService.AddIncome(authenticatedUser,addIncomeDto);
             if(result.StatusCode == System.Net.HttpStatusCode.Created || result.StatusCode  == System.Net.HttpStatusCode.OK){
                 // log that a user has created an expense type or restored a soft deleted record.
                 return Ok(result);
@@ -42,7 +42,7 @@ public class ExpenseController : Controller{
             }
         }catch(Exception ex){
             String errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-            ResponseExpenseDto response = new ResponseExpenseDto {
+            ResponseIncomeDto response = new ResponseIncomeDto {
                 Success = false,
                 Message = errorMessage,
                 StatusCode = System.Net.HttpStatusCode.InternalServerError
@@ -52,17 +52,17 @@ public class ExpenseController : Controller{
         
     }
 
-    [HttpGet("{expenseId}")]
+    [HttpGet("{incomeId}")]
     [Authorize]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ResponseExpenseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseIncomeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<ResponseExpenseDto>> GetSingleExpense(Guid expenseId){
+    public async Task<ActionResult<ResponseIncomeDto>> GetSingleIncome(Guid incomeId){
         try{
             // AuthenticatedUser? authenticatedUser = await AuthHelper.GetAuthenticatedUser(_dbContext,_httpContextAccessor?.HttpContext?.User!);
-            ResponseExpenseDto result = await _expenseService.GetSingleExpense(expenseId);
+            ResponseIncomeDto result = await _incomeService.GetSingleIncome(incomeId);
             if(result.StatusCode == System.Net.HttpStatusCode.OK){
                 // log that a user has created an expense type
                 return Ok(result);
@@ -71,7 +71,7 @@ public class ExpenseController : Controller{
             }
         }catch(Exception ex){
             String errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-            ResponseExpenseDto response = new ResponseExpenseDto {
+            ResponseIncomeDto response = new ResponseIncomeDto {
                 Success = false,
                 Message = errorMessage,
                 StatusCode = System.Net.HttpStatusCode.InternalServerError
@@ -85,13 +85,13 @@ public class ExpenseController : Controller{
     [Authorize]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ListResponseExpenseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ListResponseIncomeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<ListResponseExpenseDto>> GetExpenses([FromQuery] ExpenseQueryDto expenseQueryDto){
+    public async Task<ActionResult<ListResponseIncomeDto>> GetIncomes([FromQuery] IncomeQueryDto incomeQueryDto){
         try{
             // AuthenticatedUser? authenticatedUser = await AuthHelper.GetAuthenticatedUser(_dbContext,_httpContextAccessor?.HttpContext?.User!);
-            ListResponseExpenseDto result = await _expenseService.GetExpenses(expenseQueryDto);
+            ListResponseIncomeDto result = await _incomeService.GetIncomes(incomeQueryDto);
             if(result.StatusCode == System.Net.HttpStatusCode.OK){
                 // log that a user has created an expense type
                 return Ok(result);
@@ -100,7 +100,7 @@ public class ExpenseController : Controller{
             }
         }catch(Exception ex){
             String errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-            ResponseExpenseDto response = new ResponseExpenseDto {
+            ResponseIncomeDto response = new ResponseIncomeDto {
                 Success = false,
                 Message = errorMessage,
                 StatusCode = System.Net.HttpStatusCode.InternalServerError
@@ -110,17 +110,17 @@ public class ExpenseController : Controller{
         
     }
 
-    [HttpPut("{expenseId}")]
+    [HttpPut("{incomeId}")]
     [Authorize]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ResponseExpenseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseIncomeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<ResponseExpenseDto>> UpdateExpense(Guid expenseId,[FromBody] UpdateExpenseDto updateExpenseDto){
+    public async Task<ActionResult<ResponseIncomeDto>> UpdateIncome(Guid incomeId,[FromBody] UpdateIncomeDto updateIncomeDto){
         try{
             // AuthenticatedUser? authenticatedUser = await AuthHelper.GetAuthenticatedUser(_dbContext,_httpContextAccessor?.HttpContext?.User!);
-            ResponseExpenseDto result = await _expenseService.UpdateExpense(expenseId,updateExpenseDto);
+            ResponseIncomeDto result = await _incomeService.UpdateIncome(incomeId,updateIncomeDto);
             if(result.StatusCode == System.Net.HttpStatusCode.OK){
                 // log that a user has updated a expense type
                 return Ok(result);
@@ -129,7 +129,7 @@ public class ExpenseController : Controller{
             }
         }catch(Exception ex){
             String errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-            ResponseExpenseDto response = new ResponseExpenseDto {
+            ResponseIncomeDto response = new ResponseIncomeDto {
                 Success = false,
                 Message = errorMessage,
                 StatusCode = System.Net.HttpStatusCode.InternalServerError
@@ -140,17 +140,17 @@ public class ExpenseController : Controller{
     }
 
 
-    [HttpDelete("{expenseId}")]
+    [HttpDelete("{incomeId}")]
     [Authorize]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ResponseExpenseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseIncomeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<ResponseExpenseDto>> DeleteExpense(Guid expenseId){
+    public async Task<ActionResult<ResponseIncomeDto>> DeleteIncome(Guid incomeId){
         try{
             AuthenticatedUser? authenticatedUser = await AuthHelper.GetAuthenticatedUser(_dbContext,_httpContextAccessor?.HttpContext?.User!);
-            ResponseExpenseDto result = await _expenseService.DeleteExpense(authenticatedUser,expenseId);
+            ResponseIncomeDto result = await _incomeService.DeleteIncome(authenticatedUser,incomeId);
             if(result.StatusCode == System.Net.HttpStatusCode.OK){
                 // log that a user has deleted a expense type
                 return Ok(result);
@@ -159,7 +159,7 @@ public class ExpenseController : Controller{
             }
         }catch(Exception ex){
             String errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-            ResponseExpenseDto response = new ResponseExpenseDto {
+            ResponseIncomeDto response = new ResponseIncomeDto {
                 Success = false,
                 Message = errorMessage,
                 StatusCode = System.Net.HttpStatusCode.InternalServerError

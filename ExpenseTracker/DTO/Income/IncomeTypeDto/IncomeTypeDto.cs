@@ -4,6 +4,6 @@ namespace ExpenseTracker.DTO
     {
         public int Id { get; set; }
         public Guid IncomeTypeId { get; set; }
-
+        public bool isDeleted { get; set; }
     }
 }
