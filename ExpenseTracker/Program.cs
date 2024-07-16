@@ -37,11 +37,13 @@ builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddScoped<IIncomeTypeService, IncomeTypeService>();
 builder.Services.AddScoped<IIncomeService, IncomeService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<IBudgetGoalCategoryService, BudgetGoalCategoryService>();
 builder.Services.AddAutoMapper(typeof(IncomeTypeProfile));
 builder.Services.AddAutoMapper(typeof(ExpenseTypeProfile));
 builder.Services.AddAutoMapper(typeof(ExpenseProfile));
 builder.Services.AddAutoMapper(typeof(IncomeProfile));
 builder.Services.AddAutoMapper(typeof(CurrencyProfile));
+builder.Services.AddAutoMapper(typeof(BudgetGoalCategoryProfile));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(

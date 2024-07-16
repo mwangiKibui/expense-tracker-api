@@ -1,6 +1,6 @@
 namespace ExpenseTracker.DTO
 {
-    public class BudgetGoalCategory
+    public class BudgetGoalCategoryDto
     {
         public int Id { get; set; } 
         public Guid BudgetGoalCategoryId {get;set;}
