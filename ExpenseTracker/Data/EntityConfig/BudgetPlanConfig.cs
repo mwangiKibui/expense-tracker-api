@@ -23,6 +23,10 @@ namespace ExpenseTracker.EntityConfig{
             builder.HasOne(e => e.Currency)
             .WithMany(e => e.BudgetPlans)
             .HasForeignKey(e => e.CurrencyID);
+
+            builder.HasOne(e => e.Account)
+            .WithMany(e => e.BudgetPlans)
+            .HasForeignKey(e => e.AccountID);
         }
     }
 }

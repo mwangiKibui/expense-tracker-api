@@ -6,6 +6,7 @@ namespace ExpenseTracker.Models
         public Guid AccountID {get;set;}
         public required int AccountType {get;set;}
         public required int CurrencyId {get;set;}
+        public required int UserId {get;set;}
         public required String Name {get;set;}
         public required decimal OpeningBalance {get;set;}
         public required decimal CurrentBalance {get;set;}
@@ -16,5 +17,7 @@ namespace ExpenseTracker.Models
         public Guid CreatedBy {get;set;}
         public Currency? Currency {get;set;} = null;
         public ICollection<Transaction>? Transactions {get; set;} = null;
+        public User? User {get;set;} = null;
+        public ICollection<BudgetPlan>? BudgetPlans {get;set;} = null;
     }
 }

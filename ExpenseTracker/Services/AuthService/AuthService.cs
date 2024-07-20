@@ -38,6 +38,7 @@ namespace ExpenseTracker.Services
                 };
                 _dbContext.Add(user);
                 await _dbContext.SaveChangesAsync();
+                await new AccountHelper().createUserDefaultAccount(_dbContext,user); // creating the default user account.
                 // generate the JWT token.
                 var token = new AuthHelper().GenerateToken(
                     user,

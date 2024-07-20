@@ -19,6 +19,7 @@ namespace ExpenseTracker.Models
         public ICollection<Transaction>? Transactions { get; set;} = null;
         public ICollection<Notification>? Notifications { get; set;} = null;
         public ICollection<AuditLog>? AuditLogs{ get; set;} = null;
+        public ICollection<Account>? Accounts {get;set;} = null;
         
     }
 }

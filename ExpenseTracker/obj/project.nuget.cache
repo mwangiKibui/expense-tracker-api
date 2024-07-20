@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DQwDHvUQSFIWOUhcab/6FbcdrnZMTnR10tlW/Skq2iXgBuhZmo0JWkuKThLRouuBQS3gC3m+XDYoncGs3qDjCw==",
+  "dgSpecHash": "bGrAjPHnKOxRz69Z39mEKVSFGtKVF3Z2KrP+kMg41tWhlCPA4qdPuJCAFHkQK3cP/hESJtDi5KDjPXwudZROdQ==",
   "success": true,
   "projectFilePath": "/Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/ExpenseTracker.csproj",
   "expectedPackageFiles": [
@@ -36,6 +36,7 @@
     "/Users/kennedymwangi/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
     "/Users/kennedymwangi/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/kennedymwangi/.nuget/packages/mysqlconnector/2.2.5/mysqlconnector.2.2.5.nupkg.sha512",
+    "/Users/kennedymwangi/.nuget/packages/newtonsoft.json/7.0.1/newtonsoft.json.7.0.1.nupkg.sha512",
     "/Users/kennedymwangi/.nuget/packages/npgsql/7.0.0/npgsql.7.0.0.nupkg.sha512",
     "/Users/kennedymwangi/.nuget/packages/npgsql.entityframeworkcore.postgresql/7.0.0/npgsql.entityframeworkcore.postgresql.7.0.0.nupkg.sha512",
     "/Users/kennedymwangi/.nuget/packages/pomelo.entityframeworkcore.mysql/7.0.0/pomelo.entityframeworkcore.mysql.7.0.0.nupkg.sha512",
@@ -49,5 +50,16 @@
     "/Users/kennedymwangi/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/Users/kennedymwangi/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Newtonsoft.Json 7.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Newtonsoft.Json",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

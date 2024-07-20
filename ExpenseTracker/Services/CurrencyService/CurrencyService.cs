@@ -69,6 +69,14 @@ namespace ExpenseTracker.Services
             }else{
                 existingCurrency.Name  = updateCurrencyDto.Name!;
                 existingCurrency.Code = updateCurrencyDto.Code!;
+                if(updateCurrencyDto.IsDefault is not null && updateCurrencyDto.IsDefault == true)
+                {
+                    Currency? existingDefault = await _dbContext.Currencies.Where(curr => curr.IsDefault == true).FirstOrDefaultAsync(); // check if there is an existing default one.
+                    if(existingDefault != null){
+                        existingDefault.IsDefault = false; // unset it from been default.
+                    }
+                    existingCurrency.IsDefault = true; // set the current one to be default.
+                }
                 await _dbContext.SaveChangesAsync();
                 response.Success = true;
                 response.StatusCode = System.Net.HttpStatusCode.OK;

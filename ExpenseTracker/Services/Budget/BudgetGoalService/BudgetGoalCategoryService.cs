@@ -108,7 +108,7 @@ namespace ExpenseTracker.Services
         public async Task<ResponseBudgetGoalCategoryDto> DeleteBudgetGoalCategory(AuthenticatedUser? authenticatedUser,Guid budgetGoalCategoryId)
         {
             ResponseBudgetGoalCategoryDto response = new ResponseBudgetGoalCategoryDto();
-            BudgetGoalCategory? budgetGoalCategoryExists = await _dbContext.BudgetGoalCategories.Where(budgtGoalCat => budgtGoalCat.BudgetGoalCategoryId == budgetGoalCategoryId).FirstOrDefaultAsync();
+            BudgetGoalCategory? budgetGoalCategoryExists = await _dbContext.BudgetGoalCategories.Where(budgtGoalCat => budgtGoalCat.IsDeleted == false && budgtGoalCat.BudgetGoalCategoryId == budgetGoalCategoryId).FirstOrDefaultAsync();
             if(budgetGoalCategoryExists == null)
             {
                 response.Success = false;

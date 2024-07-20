@@ -63,12 +63,17 @@ namespace ExpenseTracker.Migrations
                     b.Property<decimal>("OpeningBalance")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Accounts", (string)null);
                 });
@@ -172,6 +177,9 @@ namespace ExpenseTracker.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AccountID")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
@@ -205,18 +213,18 @@ namespace ExpenseTracker.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("date");
 
-                    b.Property<int>("GoalType")
+                    b.Property<int?>("GoalType")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -228,6 +236,8 @@ namespace ExpenseTracker.Migrations
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountID");
 
                     b.HasIndex("BudgetCategoryID");
 
@@ -266,6 +276,9 @@ namespace ExpenseTracker.Migrations
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -700,8 +713,14 @@ namespace ExpenseTracker.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("TransactionDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool?>("isReconciled")
                         .HasColumnType("boolean");
@@ -734,7 +753,6 @@ namespace ExpenseTracker.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Channel")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -761,13 +779,16 @@ namespace ExpenseTracker.Migrations
                     b.Property<int>("StagedTransactionId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("TransactionDate")
+                        .HasColumnType("date");
 
                     b.Property<Guid>("TransactionID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<int>("TransactionNature")
+                        .HasColumnType("integer");
 
                     b.Property<int>("TransactionType")
                         .HasColumnType("integer");
@@ -844,7 +865,15 @@ namespace ExpenseTracker.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ExpenseTracker.Models.User", "User")
+                        .WithMany("Accounts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Currency");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ExpenseTracker.Models.AuditLog", b =>
@@ -860,6 +889,12 @@ namespace ExpenseTracker.Migrations
 
             modelBuilder.Entity("ExpenseTracker.Models.BudgetPlan", b =>
                 {
+                    b.HasOne("ExpenseTracker.Models.Account", "Account")
+                        .WithMany("BudgetPlans")
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ExpenseTracker.Models.BudgetGoalCategory", "BudgetGoalCategory")
                         .WithMany("BudgetPlans")
                         .HasForeignKey("BudgetCategoryID");
@@ -875,6 +910,8 @@ namespace ExpenseTracker.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Account");
 
                     b.Navigation("BudgetGoalCategory");
 
@@ -1039,6 +1076,8 @@ namespace ExpenseTracker.Migrations
 
             modelBuilder.Entity("ExpenseTracker.Models.Account", b =>
                 {
+                    b.Navigation("BudgetPlans");
+
                     b.Navigation("Transactions");
                 });
 
@@ -1088,6 +1127,8 @@ namespace ExpenseTracker.Migrations
 
             modelBuilder.Entity("ExpenseTracker.Models.User", b =>
                 {
+                    b.Navigation("Accounts");
+
                     b.Navigation("AuditLogs");
 
                     b.Navigation("BudgetPlans");

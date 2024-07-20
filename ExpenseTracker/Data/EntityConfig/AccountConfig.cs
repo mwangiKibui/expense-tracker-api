@@ -11,6 +11,10 @@ namespace ExpenseTracker.EntityConfig{
             builder.HasKey(e => e.Id);
             
             builder.Property(e => e.AccountID).HasDefaultValueSql("gen_random_uuid()");
+
+            builder.HasOne(e => e.User)
+            .WithMany(e => e.Accounts)
+            .HasForeignKey(e => e.UserId);
         }
     }
 }

@@ -54,3 +54,4 @@
 /Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/bin/Debug/net7.0/AutoMapper.dll
 /Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/bin/Debug/net7.0/Newtonsoft.Json.dll

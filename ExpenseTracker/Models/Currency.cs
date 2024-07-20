@@ -8,6 +8,7 @@ namespace ExpenseTracker.Models
         public Guid CurrencyID {get;set;}
         public required String Name {get;set;}
         public required String Code {get;set;}
+        public Boolean IsDefault {get;set;} = false;
         public Boolean IsDeleted { get; set;} = false;
         public DateTime? DeletedAt {get;set;}
         public Guid? DeletedBy { get; set; }

@@ -1,3 +1,5 @@
+using ExpenseTracker.Data;
+
 namespace ExpenseTracker.Models
 {
     public class StagedTransaction 
@@ -6,10 +8,12 @@ namespace ExpenseTracker.Models
         public Guid StagedTransactionID { get; set; }
         public required int userId {get;set;}
         public String? TransactionCode {get;set;}
-        public required DateTime TransactionDate {get;set;}
+        public required TransactionDefaults.AllowedTransactionTypes TransactionType {get;set;}
+        public required DateOnly TransactionDate {get;set;}
         public required decimal TransactionAmount {get;set;}
         public required String TransactionCurrency {get;set;}
         public bool? isReconciled {get;set;} = false;
+        public bool? isDeleted {get;set;} = false;
         public required String Channel {get;set;}
         public DateTime? DeletedAt {get;set;}
         public Guid? DeletedBy { get; set; }
