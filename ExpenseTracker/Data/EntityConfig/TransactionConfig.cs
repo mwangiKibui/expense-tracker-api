@@ -18,19 +18,23 @@ namespace ExpenseTracker.EntityConfig{
 
             builder.HasOne(e => e.StagedTransaction)
             .WithMany(e => e.Transactions)
-            .HasForeignKey(e => e.StagedTransactionId);
+            .HasForeignKey(e => e.StagedTransactionId)
+            .IsRequired(false);
 
             builder.HasOne(e => e.BudgetPlan)
             .WithMany(e => e.Transactions)
-            .HasForeignKey(e => e.BudgetPlanId);
+            .HasForeignKey(e => e.BudgetPlanId)
+            .IsRequired(false);
 
             builder.HasOne(e => e.Income)
             .WithMany(e => e.Transactions)
-            .HasForeignKey(e => e.IncomeId);
+            .HasForeignKey(e => e.IncomeId)
+            .IsRequired(false);
 
             builder.HasOne(e => e.Expense)
             .WithMany(e => e.Transactions)
-            .HasForeignKey(e => e.ExpenseId);
+            .HasForeignKey(e => e.ExpenseId)
+            .IsRequired(false);
 
             builder.HasOne(e => e.Account)
             .WithMany(e => e.Transactions)

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using ExpenseTracker.Data;
 
 namespace ExpenseTracker.DTO

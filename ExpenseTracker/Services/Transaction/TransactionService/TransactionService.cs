@@ -154,9 +154,9 @@ namespace ExpenseTracker.Services
                     }
                     if(budgetBalanceAction == BudgetBalanceAction.DECREASE)
                     {
-                        budgetPlan.BalanceAmount = budgetPlan.Amount - amountVariable;
+                        budgetPlan.BalanceAmount = budgetPlan.BalanceAmount - amountVariable;
                     }else{
-                        budgetPlan.BalanceAmount = budgetPlan.Amount + amountVariable;
+                        budgetPlan.BalanceAmount = budgetPlan.BalanceAmount + amountVariable;
                     }
                     if(budgetPlan.BalanceAmount == 0)
                     {
@@ -243,65 +243,105 @@ namespace ExpenseTracker.Services
                 response.StatusCode = System.Net.HttpStatusCode.BadRequest;
                 response.Message = "An error occurred reconciling transaction. Try again later";
             }else{
-                List<Transaction> existingTransactions = await filterReconciledStagedTransactions(reconcileStagedTransactionDto.StagedTransactionID);
-                if(existingTransactions.Count() > 0){
+                StagedTransaction? stagedTransaction = await _dbContext.StagedTransactions.Where
+                (
+                    stgTran => stgTran.Id == reconcileStagedTransactionDto.StagedTransactionID
+                ).FirstOrDefaultAsync();
+                if(stagedTransaction == null)
+                {
                     response.Success = false;
                     response.StatusCode = System.Net.HttpStatusCode.BadRequest;
-                    response.Message = "There already exists active reconciled transactions.";
+                    response.Message = "No such staged transaction exists.";
+                }else if(stagedTransaction.isReconciled == true)
+                {
+                    response.Success = false;
+                    response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                    response.Message = "Transaction is already reconciled.";
                 }else{
-                    List<Transaction> newTransactions = new List<Transaction>();
-                    bool validTransactions = true;
-                    foreach(AddTransactionDto addTransaction in reconcileStagedTransactionDto.TransactionBreakdown)
-                    {
-                        AddUpdateTransactionDto addUpdateTransactionDto = new AddUpdateTransactionDto {
-                            ExpenseID = addTransaction.ExpenseID,
-                            IncomeID = addTransaction.IncomeID,
-                            BudgetPlanID = addTransaction.BudgetPlanID,
-                            TransactionNature = addTransaction.TransactionNature,
-                            TransactionType = addTransaction.TransactionType
-                        };
-                        TransactionValidity checker = await validateTransaction(addUpdateTransactionDto,authenticatedUser!.Id);
-                        if(checker.validTransaction == false)
+                    List<Transaction> existingTransactions = await filterReconciledStagedTransactions(reconcileStagedTransactionDto.StagedTransactionID);
+                    if(existingTransactions.Count() > 0){
+                        response.Success = false;
+                        response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        response.Message = "There already exists active reconciled transactions.";
+                    }else{
+                        decimal totalSummation = reconcileStagedTransactionDto.TransactionBreakdown.Aggregate(0, (sum,tran) => (int)(sum + tran.Amount));
+                        if(totalSummation != stagedTransaction.TransactionAmount)
                         {
                             response.Success = false;
                             response.StatusCode = System.Net.HttpStatusCode.BadRequest;
-                            response.Message = checker.invalidTransactionMsg;
-                            validTransactions = false;
-                            break;
+                            response.Message = "The total amount reconciled does not equal the total transaction amount";
                         }else{
-                            newTransactions.Add(new Transaction // record the transaction
+                            List<Transaction> newTransactions = new List<Transaction>();
+                            bool validTransactions = true;
+                            foreach(AddTransactionDto addTransaction in reconcileStagedTransactionDto.TransactionBreakdown)
                             {
-                                TransactionType = addTransaction.TransactionType,
-                                TransactionNature = addTransaction.TransactionNature,
-                                ExpenseId = addTransaction.ExpenseID,
-                                IncomeId = addTransaction.IncomeID,
-                                Amount = addTransaction.Amount,
-                                TransactionDate = addTransaction.TransactionDate,
-                                Description = addTransaction.Description,
-                                UserId = authenticatedUser.Id,
-                                AccountId = defaultUserAccount.Id,
-                                StagedTransactionId = reconcileStagedTransactionDto.StagedTransactionID,
-                                BudgetPlan = checker.budgetPlan
-                            });
-                        }
-                    }
-                    if(validTransactions)
-                    {
-                        foreach(Transaction transaction in newTransactions)
-                        {
-                            _dbContext.Transactions.Add(transaction);
-                            if(transaction.BudgetPlan != null)
-                            {
-                                transaction.BudgetPlan = balanceBudgetPlanBalance(transaction.BudgetPlan,transaction.Amount);
+                                AddUpdateTransactionDto addUpdateTransactionDto = new AddUpdateTransactionDto {
+                                    ExpenseID = addTransaction.ExpenseID,
+                                    IncomeID = addTransaction.IncomeID,
+                                    BudgetPlanID = addTransaction.BudgetPlanID,
+                                    TransactionNature = addTransaction.TransactionNature,
+                                    TransactionType = addTransaction.TransactionType
+                                };
+                                TransactionValidity checker = await validateTransaction(addUpdateTransactionDto,authenticatedUser!.Id);
+                                if(checker.validTransaction == false)
+                                {
+                                    response.Success = false;
+                                    response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                                    response.Message = checker.invalidTransactionMsg;
+                                    validTransactions = false;
+                                    break;
+                                }else{
+                                    Transaction newReconciledTransaction = new Transaction // record the transaction
+                                    {
+                                        TransactionType = addTransaction.TransactionType,
+                                        TransactionNature = addTransaction.TransactionNature,
+                                        Amount = addTransaction.Amount,
+                                        TransactionDate = addTransaction.TransactionDate,
+                                        Description = addTransaction.Description,
+                                        UserId = authenticatedUser.Id,
+                                        AccountId = defaultUserAccount.Id,
+                                        StagedTransactionId = reconcileStagedTransactionDto.StagedTransactionID
+                                    };
+                                    if(addTransaction.ExpenseID is not null)
+                                    {
+                                        newReconciledTransaction.ExpenseId = addTransaction.ExpenseID;
+                                    }
+                                    if(addTransaction.IncomeID is not null)
+                                    {
+                                        newReconciledTransaction.IncomeId = addTransaction.IncomeID;
+                                    }
+                                    if(addTransaction.BudgetPlanID is not null)
+                                    {
+                                        newReconciledTransaction.BudgetPlanId = addTransaction.BudgetPlanID;
+                                        newReconciledTransaction.BudgetPlan = checker.budgetPlan;
+                                    }
+                                    newTransactions.Add(newReconciledTransaction);
+                                }
                             }
-                            await _dbContext.SaveChangesAsync();
-                        }
-                        response.StatusCode = System.Net.HttpStatusCode.OK;
-                        response.Message = "Transaction reconciled successfully";
-                        response.Success = true;
-                        response.Results = _mapper.Map<List<TransactionDto>>(newTransactions);
-                    }else{
-                        // response already set.
+                            if(validTransactions)
+                            {
+                                foreach(Transaction transaction in newTransactions)
+                                {
+                                    _dbContext.Transactions.Add(transaction);
+                                    if(transaction.BudgetPlan != null)
+                                    {
+                                        transaction.BudgetPlan = balanceBudgetPlanBalance(transaction.BudgetPlan,transaction.Amount);
+                                    }
+                                    await _dbContext.SaveChangesAsync();
+                                }
+                                stagedTransaction.isReconciled = true;
+                                await _dbContext.SaveChangesAsync();
+                                List<Transaction> savedTransactions = await _dbContext.Transactions.Where(
+                                    trns => trns.StagedTransactionId == stagedTransaction.Id
+                                ).ToListAsync();
+                                response.StatusCode = System.Net.HttpStatusCode.OK;
+                                response.Message = "Transaction reconciled successfully";
+                                response.Success = true;
+                                response.Results = _mapper.Map<List<TransactionDto>>(savedTransactions);
+                            }else{
+                                // response already set.
+                            }
+                        }  
                     }
                 }
             }
