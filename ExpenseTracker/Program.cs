@@ -41,6 +41,7 @@ builder.Services.AddScoped<IBudgetGoalCategoryService, BudgetGoalCategoryService
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IBudgetPlanService, BudgetPlanService>();
 builder.Services.AddScoped<IStagedTransactionService, StagedTransactionService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddAutoMapper(typeof(IncomeTypeProfile));
 builder.Services.AddAutoMapper(typeof(ExpenseTypeProfile));
 builder.Services.AddAutoMapper(typeof(ExpenseProfile));

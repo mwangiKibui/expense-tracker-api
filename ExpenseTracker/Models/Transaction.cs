@@ -17,7 +17,7 @@ namespace ExpenseTracker.Models
         public String? Description { get; set; }
         public String? Channel { get; set; }
         public required int AccountId { get; set; }
-        public required int StagedTransactionId { get; set; }
+        public int? StagedTransactionId { get; set; }
         public bool? isDeleted {get;set;} = false;
         public DateTime? DeletedAt {get;set;}
         public Guid? DeletedBy { get; set; }

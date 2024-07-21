@@ -1,4 +1,5 @@
 
+using ExpenseTracker.Data;
 using ExpenseTracker.Models;
 
 namespace ExpenseTracker.DTO
@@ -6,6 +7,7 @@ namespace ExpenseTracker.DTO
     public class StagedTransactionDto
     {
         public int Id { get; set; }
+        public TransactionDefaults.AllowedTransactionTypes TransactionType {get;set;}
         public Guid StagedTransactionID {get;set;}
         public string? TransactionCode {get;set;}
         public bool? isReconciled {get;set;}

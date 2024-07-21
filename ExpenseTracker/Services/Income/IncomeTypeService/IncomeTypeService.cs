@@ -61,6 +61,7 @@ namespace ExpenseTracker.Services
                     var newIncomeType = new IncomeType{
                         Name = addIncomeTypeDto.Name,
                         Description = addIncomeTypeDto.Description,
+                        SystemDefault = addIncomeTypeDto.SystemDefault,
                         CreatedAt = DateTime.UtcNow,
                         CreatedBy = authenticatedUser.UserId
                     };

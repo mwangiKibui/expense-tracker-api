@@ -8,6 +8,7 @@ namespace ExpenseTracker.Models
         public Guid ExpenseTypeId {get;set;}
         public required String Name {get;set;}
         public String? Description {get;set;}
+        public bool? SystemDefault {get;set;} = false;
         public Boolean IsDeleted { get; set;} = false;
         public DateTime? DeletedAt {get;set;}
         public Guid? DeletedBy { get; set; }

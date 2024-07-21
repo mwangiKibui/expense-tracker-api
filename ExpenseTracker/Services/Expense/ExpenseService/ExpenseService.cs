@@ -31,8 +31,12 @@ namespace ExpenseTracker.Services
             return result!;
         }
 
-        private async Task<Expense> checkDuplicate(string name,int expenseTypeId){
-            var result = await _dbContext.Expenses.Where(exp => exp.Name.ToLower() == name.ToLower() && exp.ExpenseTypeId == expenseTypeId).FirstOrDefaultAsync();
+        private async Task<Expense> checkDuplicate(string name,int expenseTypeId,int userId){
+            var result = await _dbContext.Expenses.Where(
+                exp => exp.Name.ToLower() == name.ToLower() && 
+                exp.ExpenseTypeId == expenseTypeId &&
+                exp.UserId == userId
+            ).FirstOrDefaultAsync();
             return result!;
         }
 
@@ -57,7 +61,7 @@ namespace ExpenseTracker.Services
                 response.StatusCode= System.Net.HttpStatusCode.BadRequest;
                 response.Message =  "Expense Type not found";
             }else{
-                Expense? duplicateExists = await checkDuplicate(addExpenseDto.Name,expenseType.Id);
+                Expense? duplicateExists = await checkDuplicate(addExpenseDto.Name,expenseType.Id,authenticatedUser!.Id);
                 if(duplicateExists is not null){
                     response.Success = false;
                     response.Message = "Expense exists with name "+addExpenseDto.Name+" of category "+expenseType.Name;

@@ -76,8 +76,13 @@ namespace ExpenseTracker.Services
                     TransactionType = addStagedTransactionDto.TransactionType,
                     CreatedBy = authenticatedUser!.UserId
                 };
+                // create a notification to the user's mobile device.
                 await _dbContext.StagedTransactions.AddAsync(stagedTransaction);
                 await _dbContext.SaveChangesAsync();
+                response.Success = true;
+                response.Message = "Staged Transaction Added Successfully";
+                response.StatusCode = System.Net.HttpStatusCode.Created;
+                response.Data = _mapper.Map<StagedTransactionDto>(stagedTransaction);
             }
             return response;
         }
@@ -100,6 +105,7 @@ namespace ExpenseTracker.Services
             query = query.Skip(skip).Take(pageSize);
             List<StagedTransaction> results = await query.ToListAsync();
             response.Success = true;
+            response.StatusCode = System.Net.HttpStatusCode.OK;
             response.Message = "Staged Transactions Fetched Successfully";
             response.CurrentPage = currentPage;
             response.TotalCount = totalCount;
@@ -126,13 +132,14 @@ namespace ExpenseTracker.Services
                     response.Message = "There exists active transactions from this transaction";
                     response.StatusCode = System.Net.HttpStatusCode.BadRequest;
                 }else{
-                    stagedTranExists.isDeleted = false;
+                    stagedTranExists.isDeleted = true;
                     stagedTranExists.DeletedAt = DateTime.UtcNow;
                     stagedTranExists.DeletedBy = authenticatedUser!.UserId;
                     await _dbContext.SaveChangesAsync();
+                    response.Success = true;
+                    response.Message = "Staged Transaction Deleted Successfully";
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
                 } 
-                response.Success = true;
-                response.Message = "Staged Transaction Deleted Successfully";
                 response.Data = _mapper.Map<StagedTransactionDto>(stagedTranExists);
             }
             return response;

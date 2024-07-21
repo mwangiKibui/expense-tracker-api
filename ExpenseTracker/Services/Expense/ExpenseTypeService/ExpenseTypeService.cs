@@ -66,6 +66,7 @@ namespace ExpenseTracker.Services
                     var newExpenseType = new ExpenseType{
                         Name = addExpenseTypeDto.Name,
                         Description = addExpenseTypeDto.Description,
+                        SystemDefault = addExpenseTypeDto.SystemDefault,
                         CreatedAt = DateTime.UtcNow,
                         CreatedBy = authenticatedUser.UserId
                     };
