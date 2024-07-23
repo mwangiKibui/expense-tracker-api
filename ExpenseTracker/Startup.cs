@@ -21,7 +21,7 @@ namespace ExpenseTracker
             // core (auto mapper)
             services.AddCoreConfigs();
             // Database
-            services.AddDatabaseExtension(Configuration);
+            services.AddDatabaseExtension(Configuration,Environment);
             // services
             services.AddServiceExtensions();
             // swagger
@@ -32,11 +32,12 @@ namespace ExpenseTracker
         public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
         {
             // Configure the HTTP request pipeline.
-            if (env.IsDevelopment())
-            {
+            // allow swagger ui on all environments for now
+            // if (env.IsDevelopment())
+            // {
                 app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "ExpenseTracker API"); });
+            // }
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
