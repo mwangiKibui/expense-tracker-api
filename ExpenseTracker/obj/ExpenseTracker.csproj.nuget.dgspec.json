@@ -1,26 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/ExpenseTracker.csproj": {}
+    "C:\\Users\\KennedyMwangiKibui\\Documents\\Projects\\self\\expense-tracker-api\\ExpenseTracker\\ExpenseTracker.csproj": {}
   },
   "projects": {
-    "/Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/ExpenseTracker.csproj": {
+    "C:\\Users\\KennedyMwangiKibui\\Documents\\Projects\\self\\expense-tracker-api\\ExpenseTracker\\ExpenseTracker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/ExpenseTracker.csproj",
+        "projectUniqueName": "C:\\Users\\KennedyMwangiKibui\\Documents\\Projects\\self\\expense-tracker-api\\ExpenseTracker\\ExpenseTracker.csproj",
         "projectName": "ExpenseTracker",
-        "projectPath": "/Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/ExpenseTracker.csproj",
-        "packagesPath": "/Users/kennedymwangi/.nuget/packages/",
-        "outputPath": "/Users/kennedymwangi/Projects/ExpenseTracker/ExpenseTracker/obj/",
+        "projectPath": "C:\\Users\\KennedyMwangiKibui\\Documents\\Projects\\self\\expense-tracker-api\\ExpenseTracker\\ExpenseTracker.csproj",
+        "packagesPath": "C:\\Users\\KennedyMwangiKibui\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\KennedyMwangiKibui\\Documents\\Projects\\self\\expense-tracker-api\\ExpenseTracker\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/kennedymwangi/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\KennedyMwangiKibui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/sdk/7.0.309/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -33,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -101,6 +107,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[7.0.17, 7.0.17]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.17, 7.0.17]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.17, 7.0.17]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -109,7 +129,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.309/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

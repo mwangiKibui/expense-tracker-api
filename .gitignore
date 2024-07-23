@@ -1,0 +1,69 @@
+/api/private.key
+
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+node_modules/
+*erp-int.sln
+
+# Visual Studio Code
+#.vscode
+
+# Rider
+.idea
+.mono
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstaerp-int
+*.sln
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+*.angular
+[Dd]ist/
+Erp-InttResults
+
+# Visual Studio 2015
+.vs/
+
+#Configurations
+.env
+appsettings.Development.json
+local.settings.json
+
+#Snapshooter
+__mismatch__/
+
+# Azurite artifacts
+__blobstorage__
+__queuestorage__
+__azurite_db*__.json
+
+#cypress
+cypress.env.json
+
+# ignore wwwroot content except logo
+/api/wwwroot/uploads/*
+/api/wwwroot/reports/*
+
+#solution
+*.sln
